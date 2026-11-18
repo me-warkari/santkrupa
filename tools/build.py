@@ -141,10 +141,38 @@ WORKS = [
      "kind": "granth", "path": "granth/manache-shlok",
      "unit": "श्लोक", "licence": "CC BY-SA 4.0 · Wikisource",
      "blurb": "मनाला उद्देशून २०५ श्लोक."},
+    {"slug": "dnyaneshwari-adhyay-1", "title": "ज्ञानेश्वरी — अध्याय पहिला", "short": "अध्याय पहिला",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-1",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा पहिला अध्याय — २७५ ओव्या."},
+    {"slug": "dnyaneshwari-adhyay-2", "title": "ज्ञानेश्वरी — अध्याय दुसरा", "short": "अध्याय दुसरा",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-2",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा दुसरा अध्याय — ३७५ ओव्या."},
+    {"slug": "dnyaneshwari-adhyay-3", "title": "ज्ञानेश्वरी — अध्याय तिसरा", "short": "अध्याय तिसरा",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-3",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा तिसरा अध्याय — २७६ ओव्या."},
+    {"slug": "dnyaneshwari-adhyay-4", "title": "ज्ञानेश्वरी — अध्याय चौथा", "short": "अध्याय चौथा",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-4",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा चौथा अध्याय — २२५ ओव्या."},
+    {"slug": "dnyaneshwari-adhyay-5", "title": "ज्ञानेश्वरी — अध्याय पाचवा", "short": "अध्याय पाचवा",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-5",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा पाचवा अध्याय — १८० ओव्या."},
 ]
 
 EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
-            "manache-shlok": 205}
+            "manache-shlok": 205,
+            "dnyaneshwari-adhyay-1": 277, "dnyaneshwari-adhyay-2": 375,
+            "dnyaneshwari-adhyay-3": 319, "dnyaneshwari-adhyay-4": 267,
+            "dnyaneshwari-adhyay-5": 210}
 
 
 def load_source_md(slug: str) -> str:
@@ -282,6 +310,12 @@ def verse_html(work, item, prefix: str) -> str:
     )
 
 
+def proofing_needed(slug: str) -> bool:
+    """True when the work's SOURCE.md marks proofing as NEEDED."""
+    path = CONTENT / slug / "SOURCE.md"
+    return path.exists() and "Proofing: NEEDED" in path.read_text(encoding="utf-8")
+
+
 def reading_page(work, items, verses, prev_work, next_work, prefix: str) -> str:
     count = len(verses)
     head = [breadcrumb(prefix, [("नित्यपाठ" if work["kind"] == "nitya" else "ग्रंथ",
@@ -293,6 +327,9 @@ def reading_page(work, items, verses, prev_work, next_work, prefix: str) -> str:
             "<p class=\"source-line\">स्रोत, परवाना व तपासणीची स्थिती — "
             f"खाली स्रोत विभाग पहा. या पानावरील मजकूर तपासणीच्या प्रतीक्षेत आहे; "
             "चूक आढळल्यास कृपया नोंदवा.</p>"]
+    if proofing_needed(work["slug"]):
+        head.append('<p class="notice">ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. '
+                    'चूक आढळल्यास “चूक नोंदवा” वापरा.</p>')
     nav = []
     if prev_work:
         nav.append(f'<a class="prev" href="{prefix}{prev_work["path"]}/index.html">← {esc(prev_work["short"])}</a>')
@@ -367,7 +404,7 @@ def main() -> int:
         + "<h1>ग्रंथ</h1>"
         + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. प्रत्येक ग्रंथाच्या पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे.</p>"
         + f'<div class="cards">{cards}</div>'
-        + "<p>येत्या कृती: ज्ञानेश्वरी (१८ अध्याय), दासबोध, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>"))
+        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ६–१८, दासबोध, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>"))
 
     # ---- nitya index
     cards = "\n".join(work_card("../", w, len(loaded[w["slug"]][1])) for w in nitya)
