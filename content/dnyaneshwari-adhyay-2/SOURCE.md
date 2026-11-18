@@ -12,4 +12,5 @@
 
 - Verification 2026-11-18: file fetched from the tempsystem agent, 105,396 bytes. The site builder parses 448 verse blocks: 375 ovis numbered ॥१॥–॥३७५॥, 72 Gita shlokas, and the closing line "दुसरा अध्याय समाप्त". Numbering corrected 2026-11-18: the missing ovi १८८ was restored from the Sartha Jnaneshwari (Dandekar edition), the second २०६ renumbered २०७, and the raw ''' markup stripped from shloka blocks so they now parse as separate blocks.
 - Editorial corrections 2026-11-18 (full verdicts in proofread-verification/adhyay-2-verdicts.md): 23 flagged lines corrected, mostly Gita shlokas fixed to the standard Gita text; 4 flags rejected (genuine archaic forms). 1 uncertain, left unchanged: a stray । after "देखोनि" in ovi 5 (both Wikisource and Sartha carry it; needs the printed Sartha page image to settle). Proofing still NEEDED.
+- Sloka sweep 2026-11-18 (user-approved): speaker-attribution colons normalized (संजय/श्रीभगवान्/अर्जुन उवाच: → उवाच ।) on 6 lines. No ASCII ':' remains in this chapter. Proofing still NEEDED.
 - Disclaimer on the reading page: "ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. चूक आढळल्यास “चूक नोंदवा” वापरा."
