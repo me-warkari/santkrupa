@@ -12,4 +12,5 @@
 
 - Verification 2026-11-18: file fetched from the tempsystem agent, 64,041 bytes. The site builder parses 268 verse blocks: 225 ovis numbered ॥१॥–॥२२५॥ plus the interleaved Gita Sanskrit shlokas (each with its own ॥N॥ marker, shown as separate blocks) and the closing line "चौथा अध्याय समाप्त".
 - Editorial corrections 2026-11-18 (full verdicts in proofread-verification/adhyay-4-verdicts.md): 15 flagged lines corrected; ovis 49–50 in Wikisource are verbatim copies of ovis 51–52, so the genuine ovis 49–50 were restored from the Dandekar critical edition; the unnumbered shloka after ovi 192 was identified as Gita 4.40 and numbered ॥ ४० ॥; remaining shlokas fixed to the standard Gita text. 2 flags rejected (genuine archaic forms). Proofing still NEEDED.
+- Sloka sweep 2026-11-18 (user-approved): speaker-attribution colons normalized (श्रीभगवान्/अर्जुन उवाच: → उवाच ।) on 3 lines. No ASCII ':' remains in this chapter. Proofing still NEEDED.
 - Disclaimer on the reading page: "ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. चूक आढळल्यास “चूक नोंदवा” वापरा."
