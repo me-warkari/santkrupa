@@ -15,11 +15,16 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import quote as urlquote
 
 ROOT = Path(__file__).resolve().parent          # site/
 CONTENT = ROOT.parent / "content"               # content/
 REPO = "https://github.com/me-warkari/santkrupa"
 ISSUES = REPO + "/issues/new"
+SITE_URL = "https://me-warkari.github.io/santkrupa/"
+# Cloudflare Web Analytics beacon token (cookieless, anonymous pageviews).
+# Empty until the Web Analytics site is created; then fill in the token.
+CF_BEACON_TOKEN = ""
 
 DEV_DIGITS = "०१२३४५६७८९"
 
@@ -240,6 +245,13 @@ BASE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} — संतकृपा</title>
 <meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="संतकृपा">
+<meta property="og:title" content="{title} — संतकृपा">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{url}">
+{beacon}
 <link rel="stylesheet" href="{prefix}assets/style.css">
 <script src="{prefix}assets/reader.js" defer></script>
 </head>
@@ -281,9 +293,25 @@ BASE = """<!DOCTYPE html>
 """
 
 
-def page(prefix: str, title: str, desc: str, body: str) -> str:
+def beacon() -> str:
+    """Cloudflare Web Analytics beacon (cookieless, anonymous). Empty until configured."""
+    if not CF_BEACON_TOKEN:
+        return ""
+    return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+            'data-cf-beacon=\'{"token": "' + CF_BEACON_TOKEN + '"}\'></script>')
+
+
+def share_link(title: str, url: str) -> str:
+    """One-tap WhatsApp share for a work — how devotional text spreads."""
+    text = urlquote(f"{title} — संतकृपा {url}")
+    return (f'<p class="share"><a href="https://wa.me/?text={text}">'
+            "WhatsApp वर पाठवा ↗</a></p>")
+
+
+def page(prefix: str, title: str, desc: str, body: str, url: str = "") -> str:
+    full = SITE_URL + url
     return BASE.format(prefix=prefix, title=esc(title), desc=esc(desc),
-                       body=body, repo=REPO)
+                       body=body, repo=REPO, url=full, beacon=beacon())
 
 
 def breadcrumb(prefix: str, crumbs):
@@ -339,7 +367,8 @@ def reading_page(work, items, verses, prev_work, next_work, prefix: str) -> str:
             f"मूळ ग्रंथ</p>",
             "<p class=\"source-line\">स्रोत, परवाना व तपासणीची स्थिती — "
             f"खाली स्रोत विभाग पहा. या पानावरील मजकूर तपासणीच्या प्रतीक्षेत आहे; "
-            "चूक आढळल्यास कृपया नोंदवा.</p>"]
+            "चूक आढळल्यास कृपया नोंदवा.</p>",
+            share_link(work["title"], SITE_URL + work["path"] + "/")]
     if proofing_needed(work["slug"]):
         head.append('<p class="notice">ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. '
                     'चूक आढळल्यास “चूक नोंदवा” वापरा.</p>')
@@ -365,7 +394,7 @@ def reading_page(work, items, verses, prev_work, next_work, prefix: str) -> str:
                 '</section>')
     return page(prefix, work["title"],
                 f"{work['title']} — {work['author']}, {dev_num(count)} {work['unit']}. मूळ ग्रंथ, मराठी.",
-                "\n".join(body))
+                "\n".join(body), url=f"{work['path']}/index.html")
 
 
 def work_card(prefix: str, work, count: int) -> str:
@@ -417,7 +446,8 @@ def main() -> int:
         + "<h1>ग्रंथ</h1>"
         + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. प्रत्येक ग्रंथाच्या पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे.</p>"
         + f'<div class="cards">{cards}</div>'
-        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ६–१८, दासबोध दशक २–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>"))
+        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ६–१८, दासबोध दशक २–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>",
+        url="granth/index.html"))
 
     # ---- nitya index
     cards = "\n".join(work_card("../", w, len(loaded[w["slug"]][1])) for w in nitya)
@@ -426,7 +456,8 @@ def main() -> int:
         breadcrumb("../", [("नित्यपाठ", None)])
         + "<h1>नित्यपाठ</h1>"
         + "<p>रोज वाचण्यासाठी — हरिपाठ व पसायदान. एका बैठकीत वाचता येण्याइतके लहान.</p>"
-        + f'<div class="cards">{cards}</div>'))
+        + f'<div class="cards">{cards}</div>',
+        url="nitya/index.html"))
 
     # ---- home
     hp_items, hp_verses = loaded["haripath"]
@@ -452,8 +483,8 @@ def main() -> int:
         'प्रत्येक कृतीचा मजकूर युनिकोड देवनागरीत, स्रोत व परवान्यासह दिला आहे. '
         'भाष्य, अर्थ, भाषांतर किंवा कृत्रिम अर्थ येथे नाहीत. मजकूर तपासणीच्या प्रतीक्षेत आहे — '
         'चूक आढळल्यास प्रत्येक पानावरची “चूक नोंदवा” जोडणी वापरा.</p>'
-        '<p>जाहिराती नाहीत, मागोवा नाही, खाते लागत नाही.</p></section>')
-    write(ROOT / "index.html", page("", "मुख्य", "संतकृपा — मराठी संतसाहित्य, मूळ ग्रंथ, मोफत.", home_body))
+        '<p>जाहिराती नाहीत, खाते लागत नाही. भेटींची मोजणी कुकीशिवाय व निनावी — फक्त आमच्या माहितीसाठी.</p></section>')
+    write(ROOT / "index.html", page("", "मुख्य", "संतकृपा — मराठी संतसाहित्य, मूळ ग्रंथ, मोफत.", home_body, url=""))
 
     # ---- about / vishayi
     write(ROOT / "vishayi" / "index.html", page(
@@ -493,7 +524,8 @@ def main() -> int:
         "<p>मजकूर <code>content/</code> मधील साध्या मजकूर फाइल्समध्ये आहे. "
         "<code>tools/build.py</code> ही साधी Python स्क्रिप्ट त्यांतून साधी HTML पाने तयार करते — "
         "कोणतेही फ्रेमवर्क नाही, वाचण्यासाठी JavaScript लागत नाही, अक्षरे संकेतस्थळावरच "
-        "ठेवलेली आहेत (Tiro Devanagari Marathi व Mukta, SIL Open Font License).</p>"))
+        "ठेवलेली आहेत (Tiro Devanagari Marathi व Mukta, SIL Open Font License).</p>",
+        url="vishayi/index.html"))
 
     # ---- search index + search page
     index = []
@@ -513,7 +545,27 @@ def main() -> int:
         "ग्रंथसूचीतील जोडण्यांनी वाचता येते.)</p>"
         + '<p><label>शोधा: <input id="q" type="search" placeholder="उदा. हरि, राम, मना" size="30"></label></p>'
         + '<div id="results"><p>शोध सुरू करण्यासाठी वर शब्द लिहा.</p></div>'
-        + '<script src="../assets/search.js" defer></script>'))
+        + '<script src="../assets/search.js" defer></script>',
+        url="shodh/index.html"))
+    # ---- sitemap + robots (reach: let search engines find every page)
+    urls = []
+    for p in sorted(ROOT.rglob("*.html")):
+        rel = p.relative_to(ROOT).as_posix()
+        if rel == "index.html":
+            loc = SITE_URL
+        elif rel.endswith("/index.html"):
+            loc = SITE_URL + rel[:-len("index.html")]
+        else:
+            loc = SITE_URL + rel
+        urls.append(loc)
+    sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+               + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls)
+               + "</urlset>\n")
+    write(ROOT / "sitemap.xml", sitemap)
+    write(ROOT / "robots.txt",
+          f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n")
+    print(f"sitemap: {len(urls)} urls")
     print(f"search index: {len(index)} verses")
     print("done.")
     return 0
