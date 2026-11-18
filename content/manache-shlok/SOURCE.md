@@ -12,3 +12,4 @@
 
 - Verification 2026-11-17: full text fetched, 205 shlokas present (॥१॥ to ॥२०५॥).
   Note: source has a malformed marker at ॥७६। (missing closing danda) — proofing needed.
+- Colon cleanup 2026-11-18: दु:ख → दुःख (8x, ASCII ':' for visarga; covers देहेदु:ख, महादु:ख). Trailing वर्ग: lines are Wikisource category metadata and are not rendered on the site — left untouched.
