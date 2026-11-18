@@ -72,6 +72,10 @@ def collect():
             for name in sorted(names):
                 full = os.path.join(base, name)
                 rel = os.path.relpath(full, ROOT)
+                if rel == "site/build.py":
+                    # tools/build.py is the canonical script; the copy in
+                    # site/ exists only so the built site is self-contained.
+                    continue
                 repo_path = rel[5:] if rel.startswith("site/") else rel
                 pairs.append((full, repo_path))
     return pairs
