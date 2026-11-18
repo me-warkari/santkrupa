@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Push santkrupa local tree to GitHub via the Contents API.
 
-Uploads content/, site/ and tools/ (excluding __pycache__), skipping files
-whose blob SHA already matches the repo. One commit per changed file.
+Uploads content/ and tools/ as-is, and the built site/ files to the repo
+ROOT (GitHub Pages serves from the branch root, so site/index.html is
+pushed as index.html, site/granth/... as granth/..., and so on).
+Skips files whose blob SHA already matches the repo. One commit per
+changed file.
 
 The token is read ONLY from the GITHUB_TOKEN environment variable and is
 never written to disk, logs, or the repo. Run as:
@@ -56,7 +59,12 @@ def api(path, method="GET", body=None):
 
 
 def collect():
-    files = []
+    """Return (local_path, repo_path) pairs.
+
+    content/ and tools/ keep their paths. site/ files map to the repo
+    root because GitHub Pages serves from the branch root.
+    """
+    pairs = []
     for d in DIRS:
         for base, _, names in os.walk(os.path.join(ROOT, d)):
             if "__pycache__" in base:
@@ -64,19 +72,50 @@ def collect():
             for name in sorted(names):
                 full = os.path.join(base, name)
                 rel = os.path.relpath(full, ROOT)
-                files.append(rel)
-    return files
+                repo_path = rel[5:] if rel.startswith("site/") else rel
+                pairs.append((full, repo_path))
+    return pairs
+
+
+def delete_path(repo_path, sha):
+    status, result = api(
+        f"/repos/{REPO}/contents/{repo_path}",
+        "DELETE",
+        {"message": "Remove duplicate site/ tree (site is served from root)",
+         "sha": sha, "branch": BRANCH},
+    )
+    if status != 200:
+        print(f"FAILED delete {repo_path}: HTTP {status} {result}", file=sys.stderr)
+        sys.exit(1)
+    print(f"deleted {repo_path}")
+
+
+def cleanup_site_tree():
+    """Delete every repo path under site/ (created by mistake in an
+    earlier push; the site is served from the root)."""
+    status, tree = api(f"/repos/{REPO}/git/trees/{BRANCH}?recursive=1")
+    if status != 200:
+        print(f"FAILED list tree: HTTP {status} {tree}", file=sys.stderr)
+        sys.exit(1)
+    doomed = [(t["path"], t["sha"]) for t in tree["tree"]
+              if t["type"] == "blob" and t["path"].startswith("site/")]
+    for path, sha in doomed:
+        delete_path(path, sha)
+    print(f"\ndeleted: {len(doomed)}")
 
 
 def main():
+    if "--cleanup-site" in sys.argv:
+        cleanup_site_tree()
+        return
     message = sys.argv[1] if len(sys.argv) > 1 else "Sync site and content"
     changed, skipped = [], []
-    for rel in collect():
-        with open(os.path.join(ROOT, rel), "rb") as f:
+    for full, repo_path in collect():
+        with open(full, "rb") as f:
             data = f.read()
-        status, existing = api(f"/repos/{REPO}/contents/{rel}?ref={BRANCH}")
+        status, existing = api(f"/repos/{REPO}/contents/{repo_path}?ref={BRANCH}")
         if status == 200 and existing.get("sha") == blob_sha(data):
-            skipped.append(rel)
+            skipped.append(repo_path)
             continue
         body = {
             "message": message,
@@ -85,12 +124,12 @@ def main():
         }
         if status == 200 and existing.get("sha"):
             body["sha"] = existing["sha"]
-        status, result = api(f"/repos/{REPO}/contents/{rel}", "PUT", body)
+        status, result = api(f"/repos/{REPO}/contents/{repo_path}", "PUT", body)
         if status in (200, 201):
-            changed.append((rel, result["commit"]["sha"][:7]))
-            print(f"{'updated' if status == 200 else 'created'} {rel} ({result['commit']['sha'][:7]})")
+            changed.append((repo_path, result["commit"]["sha"][:7]))
+            print(f"{'updated' if status == 200 else 'created'} {repo_path} ({result['commit']['sha'][:7]})")
         else:
-            print(f"FAILED {rel}: HTTP {status} {result}", file=sys.stderr)
+            print(f"FAILED {repo_path}: HTTP {status} {result}", file=sys.stderr)
             sys.exit(1)
     print(f"\nchanged: {len(changed)}, unchanged: {len(skipped)}")
 
