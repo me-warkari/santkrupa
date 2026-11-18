@@ -14,3 +14,4 @@
   - Includes a ध्यान section at the start and a समापन भजन at the end.
 - Licence for this text in santkrupa: Public Domain (original work, PD Mark 1.0 source)
 - Do NOT use: text from any source that does not permit reuse; modern sarth, or any translation.
+- Colon cleanup 2026-11-18: नि:संदेह → निःसंदेह (1x, ASCII ':' for visarga). No other ASCII ':' in this file.
