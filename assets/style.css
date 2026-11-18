@@ -208,6 +208,8 @@ a.big:hover { filter: brightness(1.08); }
 /* ---------- prev / next, source box ---------- */
 .prevnext { display: flex; justify-content: space-between; gap: 1em; margin: 1.6em 0; flex-wrap: wrap; }
 .prevnext a { text-decoration: none; font-weight: 700; }
+.share { margin: 1em 0; }
+.share a { text-decoration: none; font-weight: 700; }
 .sourcebox {
   border: 1px solid var(--rule); border-radius: 8px;
   background: var(--card); padding: 0.5em 1.1em 1em; margin: 2em 0;
@@ -233,7 +235,7 @@ a.big:hover { filter: brightness(1.08); }
 
 /* ---------- print ---------- */
 @media print {
-  .toolbar, .site-head nav, .copy, .vlink, .prevnext, .site-foot { display: none; }
+  .toolbar, .site-head nav, .copy, .vlink, .prevnext, .share, .site-foot { display: none; }
   body { background: #fff; color: #000; font-size: 12pt; }
   .wrap { max-width: none; }
   .vlines { font-size: 15pt; line-height: 2; }
