@@ -208,8 +208,10 @@ a.big:hover { filter: brightness(1.08); }
 /* ---------- prev / next, source box ---------- */
 .prevnext { display: flex; justify-content: space-between; gap: 1em; margin: 1.6em 0; flex-wrap: wrap; }
 .prevnext a { text-decoration: none; font-weight: 700; }
-.share { margin: 1em 0; }
-.share a { text-decoration: none; font-weight: 700; }
+.share { margin: 1.2em 0; }
+.share a { display: inline-flex; align-items: center; gap: .5em; background: #25D366; color: #fff; text-decoration: none; font-weight: 700; padding: .55em 1em; border-radius: 999px; }
+.share a:hover { background: #1da851; }
+.share svg { width: 1.25em; height: 1.25em; flex: none; }
 .sourcebox {
   border: 1px solid var(--rule); border-radius: 8px;
   background: var(--card); padding: 0.5em 1.1em 1em; margin: 2em 0;
