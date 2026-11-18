@@ -168,10 +168,15 @@ WORKS = [
      "blurb": "ज्ञानेश्वरीचा पाचवा अध्याय — १८० ओव्या."},
 ]
 
+# Block counts = ovis + Gita slokas + 1 trailing block (chapter-end line).
+# They rose in Nov 2026 when the ''' wikitext wrappers were stripped:
+# wrapped sloka lines previously failed CLOSE_NUMBER, so slokas were
+# not counted at all. A1 275+47+1, A2 375+72+1, A3 276+43+1,
+# A4 225+42+1, A5 180+29+1.
 EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
             "manache-shlok": 205,
-            "dnyaneshwari-adhyay-1": 277, "dnyaneshwari-adhyay-2": 375,
-            "dnyaneshwari-adhyay-3": 319, "dnyaneshwari-adhyay-4": 267,
+            "dnyaneshwari-adhyay-1": 323, "dnyaneshwari-adhyay-2": 448,
+            "dnyaneshwari-adhyay-3": 320, "dnyaneshwari-adhyay-4": 268,
             "dnyaneshwari-adhyay-5": 210}
 
 
