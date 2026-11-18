@@ -60,5 +60,28 @@
       }
     });
   });
+  document.querySelectorAll("button.share-native").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var title = btn.getAttribute("data-share-title") || "";
+      var text = btn.getAttribute("data-share-text") || "";
+      var url = btn.getAttribute("data-share-url") || location.href;
+      var original = btn.innerHTML;
+      function copied() {
+        btn.innerHTML = "✓ दुवा नक्कल केला";
+        setTimeout(function () { btn.innerHTML = original; }, 1800);
+      }
+      function fallbackCopy() {
+        var ta = document.createElement("textarea");
+        ta.value = url; document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); copied(); } catch (e) { /* ignore */ }
+        document.body.removeChild(ta);
+      }
+      if (navigator.share) {
+        navigator.share({ title: title, text: text, url: url }).catch(function () { /* dismissed */ });
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(copied, fallbackCopy);
+      } else { fallbackCopy(); }
+    });
+  });
   apply();
 })();
