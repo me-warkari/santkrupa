@@ -175,6 +175,10 @@ a.big:hover { filter: brightness(1.08); }
 .crumbs a { color: var(--muted); }
 .byline { color: var(--muted); }
 .source-line { color: var(--muted); font-size: 0.9em; }
+.notice {
+  background: var(--accent-soft); border-left: 4px solid var(--accent);
+  padding: 0.6em 0.9em; margin: 0.8em 0; border-radius: 0 6px 6px 0;
+}
 .vsection {
   font-family: var(--serif); text-align: center; color: var(--accent);
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
