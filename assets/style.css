@@ -1,0 +1,237 @@
+/* santkrupa — one stylesheet, hand-written. No framework. */
+
+/* Self-hosted fonts (SIL OFL 1.1, see fonts/OFL-*.txt). */
+@font-face {
+  font-family: "Tiro Devanagari Marathi";
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/tiro-devanagari-marathi-400-devanagari.woff2") format("woff2");
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D,
+    U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+@font-face {
+  font-family: "Tiro Devanagari Marathi";
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/tiro-devanagari-marathi-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+@font-face {
+  font-family: "Mukta";
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/mukta-400-devanagari.woff2") format("woff2");
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D,
+    U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+@font-face {
+  font-family: "Mukta";
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/mukta-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+@font-face {
+  font-family: "Mukta";
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url("fonts/mukta-700-devanagari.woff2") format("woff2");
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D,
+    U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+@font-face {
+  font-family: "Mukta";
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url("fonts/mukta-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+
+/* ---------- theme ---------- */
+:root {
+  --paper: #fdf8ef;
+  --ink: #2b2118;
+  --muted: #6b5d4f;
+  --accent: #9a3412;
+  --accent-soft: #f3e3d3;
+  --rule: #e2d5c0;
+  --card: #fffdf7;
+  --verse-size: 20px;
+  --verse-lh: 2.0;
+  --serif: "Tiro Devanagari Marathi", "Noto Serif Devanagari", serif;
+  --sans: "Mukta", "Noto Sans Devanagari", sans-serif;
+}
+html[data-theme="dark"] {
+  --paper: #221a12;
+  --ink: #f5ead6;
+  --muted: #c9b8a3;
+  --accent: #e08a4c;
+  --accent-soft: #3a2a1a;
+  --rule: #4a3a28;
+  --card: #2b2015;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --paper: #221a12;
+    --ink: #f5ead6;
+    --muted: #c9b8a3;
+    --accent: #e08a4c;
+    --accent-soft: #3a2a1a;
+    --rule: #4a3a28;
+    --card: #2b2015;
+  }
+}
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+a { color: var(--accent); }
+a:visited { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+h1, h2, h3 { font-family: var(--sans); line-height: 1.35; }
+h1 { font-size: 1.7em; margin: 0.6em 0 0.3em; }
+h2 { font-size: 1.3em; margin: 1.4em 0 0.5em; }
+h3 { font-size: 1.1em; }
+p { margin: 0.6em 0; }
+code { font-size: 0.9em; background: var(--accent-soft); padding: 0 0.3em; border-radius: 3px; }
+ul { padding-left: 1.3em; }
+li { margin: 0.3em 0; }
+
+/* ---------- header / nav ---------- */
+.site-head { border-bottom: 2px solid var(--accent); background: var(--paper); }
+.site-head .wrap {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 0.4em 1.2em; padding-top: 0.6em; padding-bottom: 0.6em;
+}
+.brand {
+  font-family: var(--serif); font-size: 1.5em; font-weight: 700;
+  color: var(--ink); text-decoration: none;
+}
+.site-head nav { display: flex; flex-wrap: wrap; gap: 0.2em 1em; font-size: 0.95em; }
+.site-head nav a { color: var(--ink); text-decoration: none; padding: 0.2em 0; }
+.site-head nav a:hover { color: var(--accent); text-decoration: underline; }
+
+/* ---------- reading toolbar ---------- */
+.toolbar {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--paper); border-bottom: 1px solid var(--rule);
+}
+.toolbar .wrap { display: flex; gap: 0.5em; padding-top: 0.4em; padding-bottom: 0.4em; flex-wrap: wrap; }
+.toolbar button {
+  font-family: var(--sans); font-size: 0.95em;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 6px;
+  padding: 0.3em 0.7em; cursor: pointer;
+}
+.toolbar button:hover { border-color: var(--accent); }
+.toolbar button[aria-pressed="true"] {
+  background: var(--accent); color: var(--paper); border-color: var(--accent);
+}
+
+/* ---------- reading size steps (JS sets these on <html>) ---------- */
+html[data-size="0"] { --verse-size: 18px; }
+html[data-size="1"] { --verse-size: 20px; }
+html[data-size="2"] { --verse-size: 23px; }
+html[data-size="3"] { --verse-size: 26px; }
+html[data-spacing="roomy"] { --verse-lh: 2.4; }
+html[data-font="sans"] .vlines { font-family: var(--sans); }
+
+/* ---------- home ---------- */
+.hero { text-align: center; padding: 1.2em 0 0.6em; }
+.hero h1 { font-family: var(--serif); font-size: 2.3em; margin: 0.2em 0; }
+.tagline { color: var(--muted); font-size: 1.1em; }
+.actions { display: flex; gap: 0.8em; justify-content: center; flex-wrap: wrap; margin: 1.2em 0; }
+a.big {
+  display: inline-block; background: var(--accent); color: #fffdf7;
+  text-decoration: none; font-size: 1.1em; font-weight: 700;
+  padding: 0.7em 1.2em; border-radius: 8px;
+}
+a.big.ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+a.big:hover { filter: brightness(1.08); }
+
+/* ---------- cards ---------- */
+.cards {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1em; margin: 1em 0;
+}
+.card {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 1em 1.1em;
+}
+.card h3 { margin: 0 0 0.3em; font-size: 1.2em; }
+.card h3 a { color: var(--ink); text-decoration: none; }
+.card h3 a:hover { color: var(--accent); text-decoration: underline; }
+.card p { margin: 0.3em 0; }
+.card .lic { color: var(--muted); font-size: 0.85em; }
+
+/* ---------- verses ---------- */
+.crumbs { color: var(--muted); font-size: 0.9em; margin: 1em 0 0; }
+.crumbs a { color: var(--muted); }
+.byline { color: var(--muted); }
+.source-line { color: var(--muted); font-size: 0.9em; }
+.vsection {
+  font-family: var(--serif); text-align: center; color: var(--accent);
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  padding: 0.5em 0; margin: 1.6em 0 0.8em;
+}
+.verse { margin: 1.1em 0; padding: 0.2em 0; }
+.verse:target { background: var(--accent-soft); border-radius: 6px; }
+.vlines {
+  font-family: var(--serif);
+  font-size: var(--verse-size);
+  line-height: var(--verse-lh);
+  margin: 0;
+}
+.vmeta {
+  display: flex; gap: 0.8em; align-items: baseline;
+  margin-top: 0.3em; color: var(--muted); font-size: 0.85em;
+}
+.vnum { color: var(--accent); font-weight: 700; }
+.vlink { color: var(--muted); text-decoration: none; }
+.copy {
+  font-family: var(--sans); font-size: 0.9em;
+  background: none; border: 1px solid var(--rule); border-radius: 5px;
+  color: var(--muted); padding: 0.1em 0.5em; cursor: pointer;
+}
+.copy:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- prev / next, source box ---------- */
+.prevnext { display: flex; justify-content: space-between; gap: 1em; margin: 1.6em 0; flex-wrap: wrap; }
+.prevnext a { text-decoration: none; font-weight: 700; }
+.sourcebox {
+  border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--card); padding: 0.5em 1.1em 1em; margin: 2em 0;
+  font-size: 0.92em;
+}
+.sourcebox h2, .sourcebox h3 { margin: 0.8em 0 0.3em; }
+
+/* ---------- search ---------- */
+#q {
+  font-family: var(--sans); font-size: 1em;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 0.4em 0.6em;
+  width: min(100%, 26em);
+}
+.result { border-bottom: 1px solid var(--rule); padding: 0.6em 0; }
+.result .rmeta { color: var(--muted); font-size: 0.85em; }
+
+/* ---------- footer ---------- */
+.site-foot {
+  border-top: 1px solid var(--rule); margin-top: 2.5em;
+  color: var(--muted); font-size: 0.88em; padding: 1em 0 2em;
+}
+
+/* ---------- print ---------- */
+@media print {
+  .toolbar, .site-head nav, .copy, .vlink, .prevnext, .site-foot { display: none; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  .wrap { max-width: none; }
+  .vlines { font-size: 15pt; line-height: 2; }
+  .verse { break-inside: avoid; }
+}
