@@ -171,6 +171,16 @@ WORKS = [
      "kind": "granth", "path": "granth/dnyaneshwari-adhyay-5",
      "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
      "blurb": "ज्ञानेश्वरीचा पाचवा अध्याय — १८० ओव्या."},
+    {"slug": "dnyaneshwari-adhyay-6", "title": "ज्ञानेश्वरी — अध्याय सहावा", "short": "अध्याय सहावा",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-6",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा सहावा अध्याय — ४९६ ओव्या."},
+    {"slug": "dnyaneshwari-adhyay-8", "title": "ज्ञानेश्वरी — अध्याय आठवा", "short": "अध्याय आठवा",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/dnyaneshwari-adhyay-8",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ज्ञानेश्वरीचा आठवा अध्याय — २७१ ओव्या."},
     {"slug": "dasbodh-dashak-1", "title": "दासबोध — दशक पहिला", "short": "दशक पहिला",
      "author": "समर्थ रामदास", "author_en": "Samarth Ramdas",
      "kind": "granth", "path": "granth/dasbodh-dashak-1",
@@ -187,7 +197,9 @@ WORKS = [
 # They rose in Nov 2026 when the ''' wikitext wrappers were stripped:
 # wrapped sloka lines previously failed CLOSE_NUMBER, so slokas were
 # not counted at all. A1 275+47+1, A2 375+72+1, A3 276+43+1,
-# A4 225+42+1, A5 180+29+1. Dasbodh Dashak 1: 326 ovis + 2 header blocks
+# A4 225+42+1, A5 180+29+1, A6 496+47+1 (Wikisource skips ovi 328; standard
+# count 497), A8 271+28+1 (271 ovis ॥१॥–॥२७१॥, 28 Gita slokas, 1 trailing
+# chapter-end line; standard count 271). Dasbodh Dashak 1: 326 ovis + 2 header blocks
 # + 10 samas-end blocks + 1 closing block − 2 merges (S2 ovi 5 and
 # S5 ovi 9 have no number markers in the OCR, so each merges into the
 # following verse block). Dasbodh Dashak 2: 469 ovis + 2 header blocks
@@ -197,7 +209,8 @@ EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
             "manache-shlok": 205,
             "dnyaneshwari-adhyay-1": 323, "dnyaneshwari-adhyay-2": 448,
             "dnyaneshwari-adhyay-3": 320, "dnyaneshwari-adhyay-4": 268,
-            "dnyaneshwari-adhyay-5": 210, "dasbodh-dashak-1": 337,
+            "dnyaneshwari-adhyay-5": 210, "dnyaneshwari-adhyay-6": 544,
+            "dnyaneshwari-adhyay-8": 300, "dasbodh-dashak-1": 337,
             "dasbodh-dashak-2": 480}
 
 
@@ -478,7 +491,7 @@ def main() -> int:
         + "<h1>ग्रंथ</h1>"
         + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. प्रत्येक ग्रंथाच्या पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे.</p>"
         + f'<div class="cards">{cards}</div>'
-        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ६–१८, दासबोध दशक ३–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>",
+        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ७, ९–१८, दासबोध दशक ३–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>",
         url="granth/index.html"))
 
     # ---- nitya index
