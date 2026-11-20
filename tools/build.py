@@ -191,6 +191,21 @@ WORKS = [
      "kind": "granth", "path": "granth/dasbodh-dashak-2",
      "unit": "ओवी", "licence": "Public Domain",
      "blurb": "दासबोधाचा दुसरा दशक — मूर्खलक्षणनाम, १० समास, ४६९ ओव्या."},
+    {"slug": "bhavarth-ramayan-adhyay-1", "title": "भावार्थ रामायण — अध्याय पहिला", "short": "अध्याय पहिला",
+     "author": "संत एकनाथ", "author_en": "Sant Eknath",
+     "kind": "granth", "path": "granth/bhavarth-ramayan-adhyay-1",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "भावार्थ रामायणाचा पहिला अध्याय (बालकाण्ड) — ११९ ओव्या."},
+    {"slug": "amritanubhav-ch-3", "title": "अमृतानुभव — अध्याय ३", "short": "अध्याय ३",
+     "author": "संत ज्ञानेश्वर", "author_en": "Sant Dnyaneshwar",
+     "kind": "granth", "path": "granth/amritanubhav-ch-3",
+     "unit": "ओवी", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "अमृतानुभवाचे तिसरे प्रकरण (वाचाऋण परिहार) — ३३ ओव्या."},
+    {"slug": "namdev-abhanggatha", "title": "नामदेव अभंगगाथा (निवड)", "short": "अभंगगाथा (निवड)",
+     "author": "संत नामदेव", "author_en": "Sant Namdev",
+     "kind": "granth", "path": "granth/namdev-abhanggatha",
+     "unit": "अभंग", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "नामदेवांच्या १०० अभंगांची निवड — मुख्यतः बाळकृष्ण लीला."},
 ]
 
 # Block counts = ovis + Gita slokas + 1 trailing block (chapter-end line).
@@ -204,14 +219,20 @@ WORKS = [
 # S5 ovi 9 have no number markers in the OCR, so each merges into the
 # following verse block). Dasbodh Dashak 2: 469 ovis + 2 header blocks
 # + 10 samas-end blocks + 1 closing block − 2 merges (S1 ovi 64 and
-# S2 ovi 34 have no number markers in the OCR).
+# S2 ovi 34 have no number markers in the OCR). Bhavarth Adhyay 1: 119 ovis
+# + 2 opening slokas + 1 colophon block + 1 closing count line = 123.
+# Amritanubhav ch.3: 33 ovis + 1 closing line (title lines merge into
+# ovi 1) = 34. Namdev Abhanggatha: 100 abhangs − 1 merge (abhang 82 ends
+# mid-verse on the Wikisource page itself, no closing marker, so it merges
+# into abhang 83's block) = 99.
 EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
             "manache-shlok": 205,
             "dnyaneshwari-adhyay-1": 323, "dnyaneshwari-adhyay-2": 448,
             "dnyaneshwari-adhyay-3": 320, "dnyaneshwari-adhyay-4": 268,
             "dnyaneshwari-adhyay-5": 210, "dnyaneshwari-adhyay-6": 544,
             "dnyaneshwari-adhyay-8": 300, "dasbodh-dashak-1": 337,
-            "dasbodh-dashak-2": 480}
+            "dasbodh-dashak-2": 480, "bhavarth-ramayan-adhyay-1": 123,
+            "amritanubhav-ch-3": 34, "namdev-abhanggatha": 99}
 
 
 def load_source_md(slug: str) -> str:
