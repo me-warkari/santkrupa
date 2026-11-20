@@ -205,6 +205,18 @@ a.big:hover { filter: brightness(1.08); }
 }
 .copy:hover { color: var(--accent); border-color: var(--accent); }
 
+/* ---------- series grouping ---------- */
+.series { margin: 1.8em 0; }
+.series h2 { margin-bottom: 0.2em; }
+.series h2 a { color: var(--ink); text-decoration: none; }
+.series h2 a:hover { color: var(--accent); text-decoration: underline; }
+.series .sblurb { color: var(--muted); margin: 0.2em 0 0.6em; }
+.series .upcoming { color: var(--muted); font-size: 0.92em; margin: 0.6em 0 0; }
+.siblings { display: flex; flex-wrap: wrap; gap: 0.3em 0.9em; align-items: baseline; margin: 1em 0; padding: 0.6em 0.9em; background: var(--card); border: 1px solid var(--rule); border-radius: 8px; }
+.siblings .sib-label { color: var(--muted); }
+.siblings a { font-weight: 700; text-decoration: none; }
+.siblings .cur { font-weight: 700; color: var(--accent); }
+
 /* ---------- prev / next, source box ---------- */
 .prevnext { display: flex; justify-content: space-between; gap: 1em; margin: 1.6em 0; flex-wrap: wrap; }
 .prevnext a { text-decoration: none; font-weight: 700; }
