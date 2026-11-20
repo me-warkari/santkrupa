@@ -176,6 +176,11 @@ WORKS = [
      "kind": "granth", "path": "granth/dasbodh-dashak-1",
      "unit": "ओवी", "licence": "Public Domain",
      "blurb": "दासबोधाचा पहिला दशक — स्तवननाम, १० समास, ३२६ ओव्या."},
+    {"slug": "dasbodh-dashak-2", "title": "दासबोध — दशक दुसरा", "short": "दशक दुसरा",
+     "author": "समर्थ रामदास", "author_en": "Samarth Ramdas",
+     "kind": "granth", "path": "granth/dasbodh-dashak-2",
+     "unit": "ओवी", "licence": "Public Domain",
+     "blurb": "दासबोधाचा दुसरा दशक — मूर्खलक्षणनाम, १० समास, ४६९ ओव्या."},
 ]
 
 # Block counts = ovis + Gita slokas + 1 trailing block (chapter-end line).
@@ -185,12 +190,15 @@ WORKS = [
 # A4 225+42+1, A5 180+29+1. Dasbodh Dashak 1: 326 ovis + 2 header blocks
 # + 10 samas-end blocks + 1 closing block − 2 merges (S2 ovi 5 and
 # S5 ovi 9 have no number markers in the OCR, so each merges into the
-# following verse block).
+# following verse block). Dasbodh Dashak 2: 469 ovis + 2 header blocks
+# + 10 samas-end blocks + 1 closing block − 2 merges (S1 ovi 64 and
+# S2 ovi 34 have no number markers in the OCR).
 EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
             "manache-shlok": 205,
             "dnyaneshwari-adhyay-1": 323, "dnyaneshwari-adhyay-2": 448,
             "dnyaneshwari-adhyay-3": 320, "dnyaneshwari-adhyay-4": 268,
-            "dnyaneshwari-adhyay-5": 210, "dasbodh-dashak-1": 337}
+            "dnyaneshwari-adhyay-5": 210, "dasbodh-dashak-1": 337,
+            "dasbodh-dashak-2": 480}
 
 
 def load_source_md(slug: str) -> str:
@@ -470,7 +478,7 @@ def main() -> int:
         + "<h1>ग्रंथ</h1>"
         + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. प्रत्येक ग्रंथाच्या पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे.</p>"
         + f'<div class="cards">{cards}</div>'
-        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ६–१८, दासबोध दशक २–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>",
+        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ६–१८, दासबोध दशक ३–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>",
         url="granth/index.html"))
 
     # ---- nitya index
