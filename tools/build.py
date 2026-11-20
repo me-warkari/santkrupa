@@ -208,6 +208,88 @@ WORKS = [
      "blurb": "नामदेवांच्या १०० अभंगांची निवड — मुख्यतः बाळकृष्ण लीला."},
 ]
 
+# Series: parent works that group related parts, so a reader finds the
+# neighbouring chapters of the same granth together. A work's series is
+# derived from its slug prefix, so new chapters group automatically:
+# dnyaneshwari-*, dasbodh-*, amritanubhav-*, bhavarth-*, namdev-*;
+# haripath/pasaydan are nitya; anything else is a standalone granth.
+# "index" is the series page (None while nothing in the series is published
+# yet — empty pages are never published); "upcoming" is plain text, no link.
+SERIES = [
+    {"key": "nitya", "title": "नित्यपाठ",
+     "blurb": "रोजच्या पाठासाठी — हरिपाठ व पसायदान.",
+     "index": "nitya/index.html", "upcoming": ""},
+    {"key": "dnyaneshwari", "title": "ज्ञानेश्वरी",
+     "blurb": "संत ज्ञानेश्वरांची गीतेवरील ओवीबद्ध टीका — १८ अध्याय.",
+     "index": "granth/dnyaneshwari/index.html",
+     "upcoming": "अध्याय ७, ९–१८ येत आहेत."},
+    {"key": "dasbodh", "title": "दासबोध",
+     "blurb": "समर्थ रामदासांचा उपदेशपर ग्रंथ — २० दशक.",
+     "index": "granth/dasbodh/index.html",
+     "upcoming": "दशक ३–२० येत आहेत."},
+    {"key": "amritanubhav", "title": "अमृतानुभव",
+     "blurb": "संत ज्ञानेश्वरांचे अद्वैतपर प्रकरण.",
+     "index": "granth/amritanubhav/index.html",
+     "upcoming": "अध्याय १, ४ येत आहेत."},
+    {"key": "bhavarth-ramayan", "title": "भावार्थ रामायण",
+     "blurb": "संत एकनाथांची रामायणावरील ओवीबद्ध टीका.",
+     "index": "granth/bhavarth-ramayan/index.html", "upcoming": ""},
+    {"key": "namdev", "title": "नामदेव गाथा",
+     "blurb": "संत नामदेवांचे अभंग.",
+     "index": "granth/namdev/index.html",
+     "upcoming": "नामदेव गाथा — पहिले १०० अभंग OCR मधून येत आहेत."},
+    {"key": "tukaram", "title": "तुकाराम गाथा",
+     "blurb": "संत तुकारामांचे अभंग — ४,५८३ अभंग.",
+     "index": None,
+     "upcoming": "गाथा १–४५८३ तयारीत आहे."},
+    {"key": "eknathi-bhagavat", "title": "एकनाथी भागवत",
+     "blurb": "संत एकनाथांची भागवतावरील ओवीबद्ध टीका.",
+     "index": None,
+     "upcoming": "अध्याय १ OCR मधून येत आहे."},
+    {"key": "other", "title": "इतर ग्रंथ",
+     "blurb": "एकेक ग्रंथ — चांगदेव पासष्टी, मनाचे श्लोक.",
+     "index": "granth/other/index.html", "upcoming": ""},
+]
+SERIES_BY_KEY = {s["key"]: s for s in SERIES}
+
+
+def series_key(slug: str) -> str:
+    if slug in ("haripath", "pasaydan"):
+        return "nitya"
+    for prefix, key in (("dnyaneshwari-", "dnyaneshwari"),
+                        ("dasbodh-", "dasbodh"),
+                        ("amritanubhav-", "amritanubhav"),
+                        ("bhavarth-", "bhavarth-ramayan"),
+                        ("namdev-", "namdev")):
+        if slug.startswith(prefix):
+            return key
+    return "other"
+
+
+def series_works(key: str):
+    return [w for w in WORKS if series_key(w["slug"]) == key]
+
+
+def series_section(prefix: str, series, loaded):
+    """One grouped section: heading (linked to the series page when it
+    exists), blurb, cards of its published works, and an upcoming line."""
+    key = series["key"]
+    works = series_works(key)
+    if series["index"]:
+        head = (f'<h2><a href="{prefix}{series["index"]}">{esc(series["title"])}</a></h2>')
+    else:
+        head = f'<h2>{esc(series["title"])}</h2>'
+    parts = [f'<section class="series">{head}',
+             f'<p class="sblurb">{esc(series["blurb"])}</p>']
+    if works:
+        cards = "\n".join(work_card(prefix, w, len(loaded[w["slug"]][1])) for w in works)
+        parts.append(f'<div class="cards">{cards}</div>')
+    if series["upcoming"]:
+        parts.append(f'<p class="upcoming">येत आहे — {esc(series["upcoming"])}</p>')
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
 # Block counts = ovis + Gita slokas + 1 trailing block (chapter-end line).
 # They rose in Nov 2026 when the ''' wikitext wrappers were stripped:
 # wrapped sloka lines previously failed CLOSE_NUMBER, so slokas were
@@ -423,18 +505,31 @@ def proofing_needed(slug: str) -> bool:
     return path.exists() and "Proofing: NEEDED" in path.read_text(encoding="utf-8")
 
 
-def reading_page(work, items, verses, prev_work, next_work, prefix: str) -> str:
+def reading_page(work, items, verses, prev_work, next_work, prefix: str, siblings=None) -> str:
     count = len(verses)
-    head = [breadcrumb(prefix, [("नित्यपाठ" if work["kind"] == "nitya" else "ग्रंथ",
-                                 f"{prefix}{'nitya' if work['kind'] == 'nitya' else 'granth'}/index.html"),
-                                (work["title"], None)]),
+    series = SERIES_BY_KEY[series_key(work["slug"])]
+    crumbs = [("नित्यपाठ" if work["kind"] == "nitya" else "ग्रंथ",
+               f"{prefix}{'nitya' if work['kind'] == 'nitya' else 'granth'}/index.html")]
+    if work["kind"] == "granth" and series["index"]:
+        crumbs.append((series["title"], f"{prefix}{series['index']}"))
+    crumbs.append((work["title"], None))
+    head = [breadcrumb(prefix, crumbs),
             f"<h1>{esc(work['title'])}</h1>",
             f"<p class=\"byline\">{esc(work['author'])} · {dev_num(count)} {work['unit']} · "
             f"मूळ ग्रंथ</p>",
             "<p class=\"source-line\">स्रोत, परवाना व तपासणीची स्थिती — "
             f"खाली स्रोत विभाग पहा. या पानावरील मजकूर तपासणीच्या प्रतीक्षेत आहे; "
-            "चूक आढळल्यास कृपया नोंदवा.</p>",
-            share_link(work["title"], SITE_URL + work["path"] + "/")]
+            "चूक आढळल्यास कृपया नोंदवा.</p>"]
+    if siblings and len(siblings) > 1:
+        links = []
+        for sib in siblings:
+            if sib["slug"] == work["slug"]:
+                links.append(f'<span class="cur">{esc(sib["short"])}</span>')
+            else:
+                links.append(f'<a href="{prefix}{sib["path"]}/index.html">{esc(sib["short"])}</a>')
+        head.append('<nav class="siblings" aria-label="या ग्रंथातील भाग">'
+                    '<span class="sib-label">या ग्रंथातील भाग:</span> ' + " ".join(links) + "</nav>")
+    head.append(share_link(work["title"], SITE_URL + work["path"] + "/"))
     if proofing_needed(work["slug"]):
         head.append('<p class="notice">ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. '
                     'चूक आढळल्यास “चूक नोंदवा” वापरा.</p>')
@@ -492,27 +587,53 @@ def main() -> int:
             flag = f"  <-- EXPECTED {expected}, MISMATCH!"
         print(f"{work['slug']}: {len(verses)} {work['unit']}{flag}")
 
-    # ---- reading pages (with prev/next in WORKS order)
-    for i, work in enumerate(WORKS):
+    # ---- reading pages (prev/next within the same series, so an adhyay
+    # leads to the next adhyay of the same granth, not to another granth)
+    for work in WORKS:
         items, verses = loaded[work["slug"]]
-        prev_w = WORKS[i - 1] if i > 0 else None
-        next_w = WORKS[i + 1] if i + 1 < len(WORKS) else None
+        sibs = series_works(series_key(work["slug"]))
+        j = sibs.index(work)
+        prev_w = sibs[j - 1] if j > 0 else None
+        next_w = sibs[j + 1] if j + 1 < len(sibs) else None
         depth = len(work["path"].split("/"))
         prefix = "../" * depth
         write(ROOT / work["path"] / "index.html",
-              reading_page(work, items, verses, prev_w, next_w, prefix))
+              reading_page(work, items, verses, prev_w, next_w, prefix, sibs))
 
-    # ---- granth index
-    granth = [w for w in WORKS if w["kind"] == "granth"]
+    # ---- series pages (one per parent work with published parts)
+    for series in SERIES:
+        if series["key"] == "nitya" or not series["index"]:
+            continue
+        works = series_works(series["key"])
+        if not works:
+            continue
+        depth = len(Path(series["index"]).parts) - 1
+        prefix = "../" * depth
+        cards = "\n".join(work_card(prefix, w, len(loaded[w["slug"]][1])) for w in works)
+        body = (breadcrumb(prefix, [("ग्रंथ", f"{prefix}granth/index.html"),
+                                     (series["title"], None)])
+                + f"<h1>{esc(series['title'])}</h1>"
+                + f"<p>{esc(series['blurb'])}</p>"
+                + f'<div class="cards">{cards}</div>')
+        if series["upcoming"]:
+            body += f'<p class="upcoming">येत आहे — {esc(series["upcoming"])}</p>'
+        write(ROOT / series["index"], page(
+            prefix, series["title"], f"{series['title']} — {series['blurb']}",
+            body, url=series["index"]))
+
+    # ---- granth index (grouped by series)
     nitya = [w for w in WORKS if w["kind"] == "nitya"]
-    cards = "\n".join(work_card("../", w, len(loaded[w["slug"]][1])) for w in granth)
+    granth_sections = "\n".join(
+        series_section("../", s, loaded)
+        for s in SERIES if s["key"] != "nitya")
     write(ROOT / "granth" / "index.html", page(
         "../", "ग्रंथ", "संतकृपा ग्रंथसूची — मूळ ग्रंथ.",
         breadcrumb("../", [("ग्रंथ", None)])
         + "<h1>ग्रंथ</h1>"
-        + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. प्रत्येक ग्रंथाच्या पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे.</p>"
-        + f'<div class="cards">{cards}</div>'
-        + "<p>येत्या कृती: ज्ञानेश्वरी अध्याय ७, ९–१८, दासबोध दशक ३–२०, तुकाराम गाथा, नामदेव गाथा, एकनाथी भागवत — मजकूर तयार होताच येथे येतील. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>",
+        + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. ग्रंथ त्यांच्या मूळ कृतीनुसार "
+        "गटबद्ध आहेत — ज्ञानेश्वरीचे अध्याय एकत्र, दासबोधाचे दशक एकत्र. प्रत्येक ग्रंथाच्या "
+        "पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>"
+        + granth_sections,
         url="granth/index.html"))
 
     # ---- nitya index
@@ -529,7 +650,9 @@ def main() -> int:
     hp_items, hp_verses = loaded["haripath"]
     today = hp_verses[1] if len(hp_verses) > 1 else hp_verses[0]  # first abhang of section एक
     today_html = verse_html(WORKS[0], today, "")
-    all_cards = "\n".join(work_card("", w, len(loaded[w["slug"]][1])) for w in WORKS)
+    home_sections = "\n".join(
+        series_section("", s, loaded)
+        for s in SERIES if series_works(s["key"]))
     home_body = (
         '<section class="hero">'
         '<h1>॥ संतकृपा ॥</h1>'
@@ -542,9 +665,8 @@ def main() -> int:
         '<p>हरिपाठ — भाग एक, पहिला अभंग. पूर्ण हरिपाठ '
         '<a href="nitya/haripath/index.html">येथे वाचा</a>.</p>'
         f'{today_html}</section>'
-        '<section><h2>या वेळच्या कृती</h2>'
-        f'<div class="cards">{all_cards}</div></section>'
-        '<section><h2>हे संकेतस्थळ कसे आहे</h2>'
+        + home_sections
+        + '<section><h2>हे संकेतस्थळ कसे आहे</h2>'
         '<p>संतकृपा ही मराठी संतांच्या मूळ ग्रंथांची मुक्त वाचनालय आहे. '
         'प्रत्येक कृतीचा मजकूर युनिकोड देवनागरीत, स्रोत व परवान्यासह दिला आहे. '
         'भाष्य, अर्थ, भाषांतर किंवा कृत्रिम अर्थ येथे नाहीत. मजकूर तपासणीच्या प्रतीक्षेत आहे — '
