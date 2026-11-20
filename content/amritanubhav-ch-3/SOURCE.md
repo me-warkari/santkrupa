@@ -1,0 +1,18 @@
+# अमृतानुभव — अध्याय ३ (प्रकरण तिसरें, वाचाऋण परिहार) — SOURCE
+
+- Work: अमृतानुभव, प्रकरण तिसरें — वाचाऋण परिहार (Amritanubhav Chapter 3), 33 ovis
+- Author: Sant Dnyaneshwar (1275–1296) — public domain
+- Source: mr.wikisource.org, page अमृतानुभव - अध्याय ३
+  - https://mr.wikisource.org/wiki/%E0%A4%85%E0%A4%AE%E0%A5%83%E0%A4%A4%E0%A4%BE%E0%A4%A8%E0%A5%81%E0%A4%AD%E0%A4%B5_-_%E0%A4%85%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%AF_%E0%A5%A9
+- OCR class: (a) already typed text, no OCR needed
+- Proofing: NEEDED — published with a proofing disclaimer; no human proofreader has checked this text yet. The text may contain errors.
+- Licence for this text in santkrupa: CC BY-SA 4.0 with attribution to Wikisource
+  (Wikimedia licence applies to the transcription even though the underlying work is PD)
+- Do NOT use: text from any source that does not permit reuse; modern commentary.
+
+- Verification 2026-11-20: file fetched by the tempsystem agent, 7,848 bytes, sha256 1cdfa88d79d898bbbc636452c8d1309e59027772070dab9e1f0dd58837218302 (before the fixes below; after the fixes the file is 7,648 bytes, sha256 d578f6ba1a8e3e38365cca662adb6ad0ea9b7d435f06bacd2e8901e683e01cf4). The site builder parses 34 verse blocks: 33 ovis (numbered ३-१–३-३३) + the closing "॥ इति श्रीसिद्धानुवादे…" line; the title lines merge into the first ovi block.
+- Cross-check 2026-11-20 against three independent sources (comparison only, never sources): khandbahale.org (full chapter, Devanagari typed text), sanskritdocuments.org amRitAnubhava.itx (ITRANS transcription by Vishwas Bhide, proofread 2006/2009; comparison-only per its licence terms), bookstruck.app (full chapter, original ovis + modern-Marathi paraphrase; modernised edition, used as tie-breaker only). All three cover the whole chapter — 33 ovis, numbered identically, in the same order, plus a closing line. No verse is missing or extra in any source.
+- Fixes 2026-11-20 (each backed by 2–3 witnesses against our Wikisource reading): ovi 3-1 "पूर्ण तही ऋण न फिटे" → "पूर्ण तर्ही ऋण न फिटे" (तर्ही is the attested old form; तही looks like तर्ही with र dropped); ovi 3-2 "येहवीं परादिका चौघी" → "येर्हवीं परादिका चौघी" (all three witnesses); ovi 3-23 "द्नानेंचि आपली प्रमा" → "ज्ञानेंचि आपली प्रमा" (द्न is not the word here); ovi 3-29 "तहीं वोल्हासाचेनि मिसें" → "तर्हीं वोल्हासाचेनि मिसें" (all three witnesses). Invisible ZWJ characters stripped at 3-6, 3-9, 3-12, 3-27 and the closing line (5 total). Fixes applied by script (proofread-verification/apply-bhavarth-amritanubhav-fixes.py); the pre-fix file is the tempsystem fetched copy.
+- Metadata removed 2026-11-20: two trailing Wikisource category lines are not text and are dropped.
+- Deliberately NOT fixed (2–2 splits, no clear winner — needs a printed-edition arbiter): ovi 3-1 "चेणोंचि" vs "चेणेंचि"; 3-6 "जिइजे" vs "जिइये"; 3-12 "वाउगीची" vs "वाउगी यांची/याची"; 3-18 "मानू तेही लाभे" (three-way split); 3-19 "नोव्हे" vs "नोहे" (old vs newer spelling of the same word); 3-20 "श्लाघ्यतु आले" vs "श्लाघतु आहे" and "दीपवांचून दिवा न लाहे" vs "दीप वांचूनि दिवा लाहे" (the न is meaning-changing; ours reads more coherently but two witnesses disagree); 3-21 "आपणचि" vs "आपणपें"; 3-29 "पाणीपणें नसे" vs "पाणी पाणीपणें नसे" (the doubled पाणी is plausible original). Single-witness readings not adopted: ITRANS alone adds "परी" at 3-15 and reads "निरोपण" for "बोलणें" at 3-17; bookstruck alone reads "प्रभा" for "प्रमा" at 3-23 and adds "परि" at 3-30. Chapter title kept as ours ("वाचाऋण परिहार") against the ITRANS heading "वाचाऋणोत्तीर्ण".
+- Disclaimer on the reading page: "ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. चूक आढळल्यास “चूक नोंदवा” वापरा."
