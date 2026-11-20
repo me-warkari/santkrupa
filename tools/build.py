@@ -14,6 +14,7 @@ import html
 import json
 import re
 import sys
+from datetime import date
 from pathlib import Path
 from urllib.parse import quote as urlquote
 
@@ -218,37 +219,49 @@ WORKS = [
 SERIES = [
     {"key": "nitya", "title": "नित्यपाठ",
      "blurb": "रोजच्या पाठासाठी — हरिपाठ व पसायदान.",
-     "index": "nitya/index.html", "upcoming": ""},
+     "index": "nitya/index.html", "upcoming": "",
+     "progress": "", "plan": ""},
     {"key": "dnyaneshwari", "title": "ज्ञानेश्वरी",
      "blurb": "संत ज्ञानेश्वरांची गीतेवरील ओवीबद्ध टीका — १८ अध्याय.",
      "index": "granth/dnyaneshwari/index.html",
-     "upcoming": "अध्याय ७, ९–१८ येत आहेत."},
+     "upcoming": "अध्याय ७, ९–१८ येत आहेत.",
+     "progress": "७ / १८ अध्याय",
+     "plan": "रोज एक अध्याय — १८ दिवसांत पूर्ण."},
     {"key": "dasbodh", "title": "दासबोध",
      "blurb": "समर्थ रामदासांचा उपदेशपर ग्रंथ — २० दशक.",
      "index": "granth/dasbodh/index.html",
-     "upcoming": "दशक ३–२० येत आहेत."},
+     "upcoming": "दशक ३–२० येत आहेत.",
+     "progress": "२ / २० दशक",
+     "plan": "रोज एक दशक — २० दिवसांत पूर्ण."},
     {"key": "amritanubhav", "title": "अमृतानुभव",
      "blurb": "संत ज्ञानेश्वरांचे अद्वैतपर प्रकरण.",
      "index": "granth/amritanubhav/index.html",
-     "upcoming": "अध्याय १, ४ येत आहेत."},
+     "upcoming": "अध्याय १, ४ येत आहेत.",
+     "progress": "१ / १० अध्याय",
+     "plan": "रोज एक अध्याय — १० दिवसांत पूर्ण."},
     {"key": "bhavarth-ramayan", "title": "भावार्थ रामायण",
      "blurb": "संत एकनाथांची रामायणावरील ओवीबद्ध टीका.",
-     "index": "granth/bhavarth-ramayan/index.html", "upcoming": ""},
+     "index": "granth/bhavarth-ramayan/index.html", "upcoming": "",
+     "progress": "अध्याय १ उपलब्ध", "plan": ""},
     {"key": "namdev", "title": "नामदेव गाथा",
      "blurb": "संत नामदेवांचे अभंग.",
      "index": "granth/namdev/index.html",
-     "upcoming": "नामदेव गाथा — पहिले १०० अभंग OCR मधून येत आहेत."},
+     "upcoming": "नामदेव गाथा — पहिले १०० अभंग OCR मधून येत आहेत.",
+     "progress": "१०० अभंगांची निवड उपलब्ध", "plan": ""},
     {"key": "tukaram", "title": "तुकाराम गाथा",
      "blurb": "संत तुकारामांचे अभंग — ४,५८३ अभंग.",
      "index": None,
-     "upcoming": "गाथा १–४५८३ तयारीत आहे."},
+     "upcoming": "गाथा १–४५८३ तयारीत आहे.",
+     "progress": "", "plan": ""},
     {"key": "eknathi-bhagavat", "title": "एकनाथी भागवत",
      "blurb": "संत एकनाथांची भागवतावरील ओवीबद्ध टीका.",
      "index": None,
-     "upcoming": "अध्याय १ OCR मधून येत आहे."},
+     "upcoming": "अध्याय १ OCR मधून येत आहे.",
+     "progress": "", "plan": ""},
     {"key": "other", "title": "इतर ग्रंथ",
      "blurb": "एकेक ग्रंथ — चांगदेव पासष्टी, मनाचे श्लोक.",
-     "index": "granth/other/index.html", "upcoming": ""},
+     "index": "granth/other/index.html", "upcoming": "",
+     "progress": "२ ग्रंथ उपलब्ध", "plan": ""},
 ]
 SERIES_BY_KEY = {s["key"]: s for s in SERIES}
 
@@ -270,24 +283,51 @@ def series_works(key: str):
     return [w for w in WORKS if series_key(w["slug"]) == key]
 
 
-def series_section(prefix: str, series, loaded):
-    """One grouped section: heading (linked to the series page when it
-    exists), blurb, cards of its published works, and an upcoming line."""
-    key = series["key"]
-    works = series_works(key)
+def series_card(prefix: str, series, loaded):
+    """Compact card for a series (home + granth index): title, one line on
+    what it is, how much is published, and what is coming. The full chapter
+    list lives on the series page, not here."""
     if series["index"]:
-        head = (f'<h2><a href="{prefix}{series["index"]}">{esc(series["title"])}</a></h2>')
+        title = f'<h3><a href="{prefix}{series["index"]}">{esc(series["title"])}</a></h3>'
     else:
-        head = f'<h2>{esc(series["title"])}</h2>'
-    parts = [f'<section class="series">{head}',
-             f'<p class="sblurb">{esc(series["blurb"])}</p>']
-    if works:
-        cards = "\n".join(work_card(prefix, w, len(loaded[w["slug"]][1])) for w in works)
-        parts.append(f'<div class="cards">{cards}</div>')
+        title = f'<h3>{esc(series["title"])}</h3>'
+    parts = [f'<article class="card series-card">{title}',
+             f'<p>{esc(series["blurb"])}</p>']
+    if series.get("progress"):
+        parts.append(f'<p class="progress">{esc(series["progress"])}</p>')
     if series["upcoming"]:
         parts.append(f'<p class="upcoming">येत आहे — {esc(series["upcoming"])}</p>')
-    parts.append("</section>")
+    parts.append("</article>")
     return "\n".join(parts)
+
+
+def toc_list(prefix: str, works, loaded):
+    """Numbered table of contents for a series page: chapter, verse count."""
+    rows = []
+    for w in works:
+        count = len(loaded[w["slug"]][1])
+        rows.append(f'<li><a href="{prefix}{w["path"]}/index.html">{esc(w["short"])}</a>'
+                    f' <span class="tcount">{dev_num(count)} {w["unit"]}</span></li>')
+    return '<ol class="toc">\n' + "\n".join(rows) + "\n</ol>"
+
+
+def daily_candidates(items):
+    """First verse block of each Haripath section, in order — the pool for
+    the daily reading rotation (one per day, by day-of-year). A Haripath
+    block is usually the whole section (4 abhangs), so one day = one भाग."""
+    cands, seen = [], set()
+    for it in items:
+        if it["kind"] == "verse" and it.get("section") and it["section"] not in seen:
+            seen.add(it["section"])
+            cands.append(it)
+    return cands
+
+
+def today_caption(section: str) -> str:
+    """'हरिपाठ — भाग एक.' (ध्यान / समापन भजन are not भाग)."""
+    if section in ("ध्यान", "समापन भजन", "भजन"):
+        return f"हरिपाठ — {section}."
+    return f"हरिपाठ — भाग {section}."
 
 
 # Block counts = ovis + Gita slokas + 1 trailing block (chapter-end line).
@@ -529,6 +569,11 @@ def reading_page(work, items, verses, prev_work, next_work, prefix: str, sibling
                 links.append(f'<a href="{prefix}{sib["path"]}/index.html">{esc(sib["short"])}</a>')
         head.append('<nav class="siblings" aria-label="या ग्रंथातील भाग">'
                     '<span class="sib-label">या ग्रंथातील भाग:</span> ' + " ".join(links) + "</nav>")
+    # Jump to a verse by its displayed number (॥N॥ as printed on the page).
+    # Works with JS off? No — without JS it is inert, reading still works.
+    head.append(f'<p class="jump"><label for="jump-n">{work["unit"]} क्रमांकावर जा:</label> '
+                f'<input id="jump-n" type="number" min="1" max="{count}" inputmode="numeric"> '
+                f'<button id="jump-go" type="button">जा</button></p>')
     head.append(share_link(work["title"], SITE_URL + work["path"] + "/"))
     if proofing_needed(work["slug"]):
         head.append('<p class="notice">ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. '
@@ -540,7 +585,8 @@ def reading_page(work, items, verses, prev_work, next_work, prefix: str, sibling
         nav.append(f'<a class="next" href="{prefix}{next_work["path"]}/index.html">{esc(next_work["short"])} →</a>')
     if nav:
         head.append(f'<nav class="prevnext" aria-label="मागील / पुढील कृती">{" ".join(nav)}</nav>')
-    body = ["\n".join(head)]
+    body = ['<div class="read-progress" id="read-progress"></div>',
+            "\n".join(head)]
     for item in items:
         if item["kind"] == "heading":
             body.append(f'<h2 class="vsection">{esc(item["text"])}</h2>')
@@ -609,49 +655,58 @@ def main() -> int:
             continue
         depth = len(Path(series["index"]).parts) - 1
         prefix = "../" * depth
-        cards = "\n".join(work_card(prefix, w, len(loaded[w["slug"]][1])) for w in works)
         body = (breadcrumb(prefix, [("ग्रंथ", f"{prefix}granth/index.html"),
                                      (series["title"], None)])
                 + f"<h1>{esc(series['title'])}</h1>"
-                + f"<p>{esc(series['blurb'])}</p>"
-                + f'<div class="cards">{cards}</div>')
+                + f"<p>{esc(series['blurb'])}</p>")
+        if series.get("plan"):
+            body += f'<p class="plan">वाचन योजना — {esc(series["plan"])}</p>'
+        body += toc_list(prefix, works, loaded)
         if series["upcoming"]:
             body += f'<p class="upcoming">येत आहे — {esc(series["upcoming"])}</p>'
         write(ROOT / series["index"], page(
             prefix, series["title"], f"{series['title']} — {series['blurb']}",
             body, url=series["index"]))
 
-    # ---- granth index (grouped by series)
+    # ---- granth index (series cards; chapter lists live on series pages)
     nitya = [w for w in WORKS if w["kind"] == "nitya"]
-    granth_sections = "\n".join(
-        series_section("../", s, loaded)
+    granth_cards = "\n".join(
+        series_card("../", s, loaded)
         for s in SERIES if s["key"] != "nitya")
     write(ROOT / "granth" / "index.html", page(
         "../", "ग्रंथ", "संतकृपा ग्रंथसूची — मूळ ग्रंथ.",
         breadcrumb("../", [("ग्रंथ", None)])
         + "<h1>ग्रंथ</h1>"
-        + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. ग्रंथ त्यांच्या मूळ कृतीनुसार "
-        "गटबद्ध आहेत — ज्ञानेश्वरीचे अध्याय एकत्र, दासबोधाचे दशक एकत्र. प्रत्येक ग्रंथाच्या "
-        "पानावर स्रोत, परवाना व तपासणीची स्थिती दिली आहे. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>"
-        + granth_sections,
+        + "<p>मूळ ग्रंथच — भाष्य, अर्थ किंवा भाषांतर नाही. प्रत्येक ग्रंथाचे अध्याय "
+        "त्याच्या स्वतःच्या पानावर आहेत; स्रोत, परवाना व तपासणीची स्थिती प्रत्येक "
+        "कृतीच्या पानावर दिली आहे. रिकामी पाने प्रसिद्ध केली जात नाहीत.</p>"
+        + f'<div class="cards">{granth_cards}</div>',
         url="granth/index.html"))
 
-    # ---- nitya index
-    cards = "\n".join(work_card("../", w, len(loaded[w["slug"]][1])) for w in nitya)
+    # ---- nitya index (same TOC form as the series pages)
     write(ROOT / "nitya" / "index.html", page(
         "../", "नित्यपाठ", "रोजच्या पाठासाठी — हरिपाठ, पसायदान.",
         breadcrumb("../", [("नित्यपाठ", None)])
         + "<h1>नित्यपाठ</h1>"
         + "<p>रोज वाचण्यासाठी — हरिपाठ व पसायदान. एका बैठकीत वाचता येण्याइतके लहान.</p>"
-        + f'<div class="cards">{cards}</div>',
+        + toc_list("../", nitya, loaded),
         url="nitya/index.html"))
 
-    # ---- home
+    # ---- home (doorway, not catalogue: today's reading, start-here,
+    # compact series cards; chapter lists live on the series pages)
     hp_items, hp_verses = loaded["haripath"]
-    today = hp_verses[1] if len(hp_verses) > 1 else hp_verses[0]  # first abhang of section एक
+    cands = daily_candidates(hp_items)
+    doy = date.today().timetuple().tm_yday
+    today = cands[(doy - 1) % len(cands)]
     today_html = verse_html(WORKS[0], today, "")
-    home_sections = "\n".join(
-        series_section("", s, loaded)
+    # Same pool as JSON so reader.js can rotate by the visitor's own date;
+    # without JS the server-picked verse (build day) stays.
+    today_json = json.dumps(
+        [{"section": c["section"], "number": c["number"],
+          "marker": verse_marker(c["lines"]), "lines": c["lines"]} for c in cands],
+        ensure_ascii=False)
+    home_cards = "\n".join(
+        series_card("", s, loaded)
         for s in SERIES if series_works(s["key"]))
     home_body = (
         '<section class="hero">'
@@ -662,10 +717,21 @@ def main() -> int:
         '<a class="big ghost" href="granth/index.html">ग्रंथ शोधा</a>'
         '</div></section>'
         '<section><h2>आजचे वाचन</h2>'
-        '<p>हरिपाठ — भाग एक, पहिला अभंग. पूर्ण हरिपाठ '
+        f'<p><span id="today-cap">{esc(today_caption(today["section"]))}</span> पूर्ण हरिपाठ '
         '<a href="nitya/haripath/index.html">येथे वाचा</a>.</p>'
-        f'{today_html}</section>'
-        + home_sections
+        f'<div id="today">{today_html}</div>'
+        f'<script type="application/json" id="today-data">{today_json}</script></section>'
+        '<section><h2>सुरुवात कोठून करावी?</h2>'
+        '<div class="cards">'
+        '<article class="card"><h3><a href="nitya/haripath/index.html">रोजचा पाठ</a></h3>'
+        '<p>दररोज सकाळी — हरिपाठ व पसायदान.</p></article>'
+        '<article class="card"><h3><a href="granth/manache-shlok/index.html">पहिला ग्रंथ</a></h3>'
+        '<p>लहान व सोपा — मनाचे २०५ श्लोक.</p></article>'
+        '<article class="card"><h3><a href="granth/dnyaneshwari-adhyay-1/index.html">खोलवर जा</a></h3>'
+        '<p>ज्ञानेश्वरी — अध्याय पहिला.</p></article>'
+        '</div></section>'
+        '<section><h2><a href="granth/index.html">ग्रंथ</a></h2>'
+        f'<div class="cards">{home_cards}</div></section>'
         + '<section><h2>हे संकेतस्थळ कसे आहे</h2>'
         '<p>संतकृपा ही मराठी संतांच्या मूळ ग्रंथांची मुक्त वाचनालय आहे. '
         'प्रत्येक कृतीचा मजकूर युनिकोड देवनागरीत, स्रोत व परवान्यासह दिला आहे. '
