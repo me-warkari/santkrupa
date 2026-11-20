@@ -416,8 +416,12 @@ BASE = """<!DOCTYPE html>
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
 {beacon}
-<link rel="stylesheet" href="{prefix}assets/style.css">
-<script src="{prefix}assets/reader.js" defer></script>
+<!-- ?v=2 cache-busts the assets on each deploy: without it a reader's
+     browser can keep the previous reader.js/style.css after a push and
+     new controls (e.g. jump-to-verse) silently do nothing. Bump the
+     number whenever either file changes. -->
+<link rel="stylesheet" href="{prefix}assets/style.css?v=2">
+<script src="{prefix}assets/reader.js?v=2" defer></script>
 </head>
 <body>
 <header class="site-head">
