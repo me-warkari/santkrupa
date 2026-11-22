@@ -207,13 +207,74 @@ WORKS = [
      "kind": "granth", "path": "granth/namdev-abhanggatha",
      "unit": "अभंग", "licence": "CC BY-SA 4.0 · Wikisource",
      "blurb": "नामदेवांच्या १०० अभंगांची निवड — मुख्यतः बाळकृष्ण लीला."},
+    {"slug": "gondavalekar-pravachane-january", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — जानेवारी", "short": "जानेवारी",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-january",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "जानेवारी महिन्यातील ३१ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-february", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — फेब्रुवारी", "short": "फेब्रुवारी",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-february",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "फेब्रुवारी महिन्यातील २९ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-march", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — मार्च", "short": "मार्च",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-march",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "मार्च महिन्यातील ३१ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-april", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — एप्रिल", "short": "एप्रिल",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-april",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "एप्रिल महिन्यातील ३० दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-may", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — मे", "short": "मे",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-may",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "मे महिन्यातील ३१ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-june", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — जून", "short": "जून",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-june",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "जून महिन्यातील ३० दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-july", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — जुलै", "short": "जुलै",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-july",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "जुलै महिन्यातील ३१ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-august", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — ऑगस्ट", "short": "ऑगस्ट",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-august",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ऑगस्ट महिन्यातील ३१ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-september", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — सप्टेंबर", "short": "सप्टेंबर",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-september",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "सप्टेंबर महिन्यातील ३० दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-october", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — ऑक्टोबर", "short": "ऑक्टोबर",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-october",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "ऑक्टोबर महिन्यातील ३१ दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-november", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — नोव्हेंबर", "short": "नोव्हेंबर",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-november",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "नोव्हेंबर महिन्यातील ३० दिवसांची प्रवचने."},
+    {"slug": "gondavalekar-pravachane-december", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने — डिसेंबर", "short": "डिसेंबर",
+     "author": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज)", "author_en": "Shri Brahmachaitanya Maharaj (Gondavalekar Maharaj)",
+     "kind": "granth", "path": "granth/gondavalekar-pravachane-december",
+     "unit": "दिवस", "licence": "CC BY-SA 4.0 · Wikisource",
+     "blurb": "डिसेंबर महिन्यातील ३१ दिवसांची प्रवचने."},
 ]
 
 # Series: parent works that group related parts, so a reader finds the
 # neighbouring chapters of the same granth together. A work's series is
 # derived from its slug prefix, so new chapters group automatically:
-# dnyaneshwari-*, dasbodh-*, amritanubhav-*, bhavarth-*, namdev-*;
-# haripath/pasaydan are nitya; anything else is a standalone granth.
+# dnyaneshwari-*, dasbodh-*, amritanubhav-*, bhavarth-*, namdev-*,
+# gondavalekar-pravachane-*; haripath/pasaydan are nitya; anything else
+# is a standalone granth.
 # "index" is the series page (None while nothing in the series is published
 # yet — empty pages are never published); "upcoming" is plain text, no link.
 SERIES = [
@@ -258,6 +319,12 @@ SERIES = [
      "index": None,
      "upcoming": "अध्याय १ OCR मधून येत आहे.",
      "progress": "", "plan": ""},
+    {"key": "gondavalekar-pravachane", "title": "श्रीब्रह्मचैतन्य महाराजांची प्रवचने",
+     "blurb": "श्रीब्रह्मचैतन्य महाराज (गोंदवलेकर महाराज) यांची रोजची प्रवचने — वर्षातील ३६६ दिवस.",
+     "index": "granth/gondavalekar-pravachane/index.html",
+     "upcoming": "",
+     "progress": "१२ / १२ महिने · ३६६ दिवस",
+     "plan": "रोज एक दिवस — वर्षभराची वाचन योजना."},
     {"key": "other", "title": "इतर ग्रंथ",
      "blurb": "एकेक ग्रंथ — चांगदेव पासष्टी, मनाचे श्लोक.",
      "index": "granth/other/index.html", "upcoming": "",
@@ -273,7 +340,8 @@ def series_key(slug: str) -> str:
                         ("dasbodh-", "dasbodh"),
                         ("amritanubhav-", "amritanubhav"),
                         ("bhavarth-", "bhavarth-ramayan"),
-                        ("namdev-", "namdev")):
+                        ("namdev-", "namdev"),
+                        ("gondavalekar-pravachane-", "gondavalekar-pravachane")):
         if slug.startswith(prefix):
             return key
     return "other"
@@ -346,7 +414,9 @@ def today_caption(section: str) -> str:
 # Amritanubhav ch.3: 33 ovis + 1 closing line (title lines merge into
 # ovi 1) = 34. Namdev Abhanggatha: 100 abhangs − 1 merge (abhang 82 ends
 # mid-verse on the Wikisource page itself, no closing marker, so it merges
-# into abhang 83's block) = 99.
+# into abhang 83's block) = 99. Gondavalekar Pravachane: each day is one
+# ## section = 1 block, so the count is the days in the month (Feb 29 —
+# the leap day is included); no mid-day CLOSE_NUMBER splits were found.
 EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
             "manache-shlok": 205,
             "dnyaneshwari-adhyay-1": 323, "dnyaneshwari-adhyay-2": 448,
@@ -354,7 +424,19 @@ EXPECTED = {"haripath": None, "pasaydan": 9, "changdev-pasashti": 65,
             "dnyaneshwari-adhyay-5": 210, "dnyaneshwari-adhyay-6": 544,
             "dnyaneshwari-adhyay-8": 300, "dasbodh-dashak-1": 337,
             "dasbodh-dashak-2": 480, "bhavarth-ramayan-adhyay-1": 123,
-            "amritanubhav-ch-3": 34, "namdev-abhanggatha": 99}
+            "amritanubhav-ch-3": 34, "namdev-abhanggatha": 99,
+            "gondavalekar-pravachane-january": 31,
+            "gondavalekar-pravachane-february": 29,
+            "gondavalekar-pravachane-march": 31,
+            "gondavalekar-pravachane-april": 30,
+            "gondavalekar-pravachane-may": 31,
+            "gondavalekar-pravachane-june": 30,
+            "gondavalekar-pravachane-july": 31,
+            "gondavalekar-pravachane-august": 31,
+            "gondavalekar-pravachane-september": 30,
+            "gondavalekar-pravachane-october": 31,
+            "gondavalekar-pravachane-november": 30,
+            "gondavalekar-pravachane-december": 31}
 
 
 def load_source_md(slug: str) -> str:
@@ -737,7 +819,7 @@ def main() -> int:
         '<section><h2><a href="granth/index.html">ग्रंथ</a></h2>'
         f'<div class="cards">{home_cards}</div></section>'
         + '<section><h2>हे संकेतस्थळ कसे आहे</h2>'
-        '<p>संतकृपा ही मराठी संतांच्या मूळ ग्रंथांची मुक्त वाचनालय आहे. '
+        '<p>संतकृपा ही मराठी संतांच्या मूळ ग्रंथांचे मुक्त वाचनालय आहे. '
         'प्रत्येक कृतीचा मजकूर युनिकोड देवनागरीत, स्रोत व परवान्यासह दिला आहे. '
         'भाष्य, अर्थ, भाषांतर किंवा कृत्रिम अर्थ येथे नाहीत. मजकूर तपासणीच्या प्रतीक्षेत आहे — '
         'चूक आढळल्यास प्रत्येक पानावरची “चूक नोंदवा” जोडणी वापरा.</p>'
