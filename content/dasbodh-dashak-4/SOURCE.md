@@ -1,0 +1,18 @@
+# दासबोध — दशक चवथा — SOURCE
+
+- Work: दासबोध, दशक चवथा (नवविधा भक्तिनाम), १० समास, २९५ ओव्या
+- Author: समर्थ रामदास (Samarth Ramdas, 1608–1682) — public domain
+- Source: archive.org item dasbodh-samarth-ramdas, scan (calibre-made PDF, 533 pages); Dashak 4 = PDF pages 103–123
+  - https://archive.org/details/dasbodh-samarth-ramdas
+- OCR class: (c) scan OCR — Tesseract mar+san+eng at 300 DPI, run on tempsystem 2026-11-24; Devanagari ratio 79–84% per page. The PDF's embedded text layer is garbled (conjuncts dropped) and was not used.
+- Proofing: NEEDED — published with a proofing disclaimer; no human proofreader has checked this text yet. The text may contain errors.
+- Licence for this text in santkrupa: Public Domain (author died 1682)
+- Do NOT use: text from any source that does not permit reuse; modern commentary.
+
+- Comparison (2026-11-24; full report: research/dasbodh-dashak-4-compare-2026-11-24.md): every ovi compared against a second, independently typed Devanagari text of the same dashak (advaita.cz Dashak 4 page), with an ITRANS transcription as tie-breaker. No Dashak 4 page was found on transliteral.org (3 searches, none surfaced one). Before fixes: 155 exact matches, 121 near matches, 18 below-threshold differences out of 295 ovis; after fixes: 179 exact, 116 near, 0 remaining below-threshold differences. No ovi is missing from either side.
+- Fixes applied 2026-11-24 (script research/fix_dasbodh4.py, every fix count-asserted, only where the two witnesses agree against the OCR): 16 garbled ovis restored from the comparison witness; 1 missing ovi-number marker restored (S8 ovi 31 — had merged into ovi 32's block with page-number junk "113211", dropped; ovi 32's text also fixed); 6 Latin-letter OCR misreads replaced with the witness-agreed word (S2 ovi 2 "Hels" → अक्षंड, S2 ovi 14 "wat" → प्रसंगें, S4 ovi 5 "Age" → सद्गुरु, S4 ovi 15 ".e" → द्वारें, S5 ovi 24 "cares" → देवाळईं, S7 ovi 12 "a" → वनें); S6 ovi 12's sloka lines kept verbatim, only its ovi lines replaced ("caret" → देवांसी, "stearate" → अत्यादरेंसीं, "मानिता" → मानितां); 3 samas headings corrected (S5 "अच॑नभाक्ते" → अर्चनभक्ति, S6 "वंदनभकति" → वंदनभक्ति, S8 "सख्यभाक्ते" → सख्यभक्ति); ZWNJ stripped from replacement text. No Latin-letter junk remains in the file.
+- Variants (main text kept; the variant reading is recorded here): S2 ovi 2 अक्षंड — all three witnesses (the typed Devanagari text, the ITRANS transcription "akSha.nDa", and a third printed-text page) read अक्षंड; that third page's own commentary paraphrases it as अखंड, which is likely the modernised form. Main text keeps अक्षंड as printed/attested.
+- Known issues awaiting proofing: ~116 near-match differences remain (mostly systematic OCR misreads — ध→द, ौ→ू, dropped anusvaras, old spellings vs the witness's normalised ones); the Sanskrit sloka lines in S1, S6 and S8 were kept verbatim and not compared word by word. Proof against a printed edition before treating any line as final.
+- Mechanical cleanup 2026-11-24 (tempsystem, clean_dasbodh3.py reused as-is): 331 ASCII pipe characters normalized (|→।, ||→॥); 8 isolated ovi-number misreads corrected only where the sequence resumes immediately; 18 Latin-junk lines left as read by the cleaner and fixed afterwards by comparison (see above). Final file sha256 b66c443b…; the tempsystem copy is still the pre-fix OCR version.
+- Builder: 308 verse blocks (295 ovis + 2 header blocks + 10 समास-end blocks + 1 closing block). The sloka lines carry no number markers, so they merge into the following ovi blocks.
+- Disclaimer on the reading page: "ही आवृत्ती तपासणी बाकी आहे — मजकुरात चुका असू शकतात. चूक आढळल्यास “चूक नोंदवा” वापरा."
